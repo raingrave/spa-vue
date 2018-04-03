@@ -1,30 +1,39 @@
 import AuthService from '@/services/AuthService'
+import { isEmpty } from 'lodash'
 
 const authenticate = (context, credentials) => {
-  AuthService.authenticate(credentials).then(response => {
+  return AuthService.authenticate(credentials).then(response => {
     let token = response.data.access_token
     context.commit('SET_TOKEN', token)
     AuthService.createTokenInStorage(token)
-    context.commit('SET_IS_LOGGED', true)
-    context.commit('SET_USER', context.dispatch('getUserFromToken', response.data.access_token))
+    return response
   })
 }
 
 const unauthenticate = (context, token) => {
   AuthService.unauthenticate(token)
   context.commit('SET_TOKEN', null)
-  context.commit('SET_IS_LOGGED', false)
   context.commit('SET_USER', null)
+  return Promise.resolve()
+}
+
+const checkUserToken = (context) => {
+  if (!isEmpty(context.state.token)) {
+    return Promise.resolve(context.state.token)
+  }
+  return Promise.reject('TOKEN_NOT_FOUND')
 }
 
 const getUserFromToken = (context, token) => {
-  AuthService.getUserFromToken(token).then(response => {
+  return AuthService.getUserFromToken(token).then(response => {
     context.commit('SET_USER', response.data.data)
+    return response
   })
 }
 
 export default {
   authenticate,
   unauthenticate,
+  checkUserToken,
   getUserFromToken
 }

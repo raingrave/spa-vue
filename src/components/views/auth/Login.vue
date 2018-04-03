@@ -44,6 +44,8 @@ export default {
         this.show = false
         this.disabled = false
         this.$router.push('admin')
+      }, error => {
+        console.log(error)
       })
     }
   }

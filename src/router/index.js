@@ -13,22 +13,34 @@ const router = new Router({
     {
       path: '/',
       name: 'index',
-      component: Index
+      component: Index,
+      meta: {
+        isAuthenticated: false
+      }
     },
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
+      meta: {
+        isAuthenticated: false
+      }
     },
     {
       path: '/admin',
       name: 'admin',
-      component: Admin
+      component: Admin,
+      meta: {
+        isAuthenticated: true
+      }
     },
     {
       path: '/exercito',
       name: 'exercito',
-      component: Exercito
+      component: Exercito,
+      meta: {
+        isAuthenticated: true
+      }
     }
   ]
 })
