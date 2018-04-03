@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import BeforeEach from './beforeEach'
 import Index from '@/components/views/pages/Index'
-import Login from '@/components/views/auth/Login'
+import Login from '@/components/views/pages/auth/Login'
 import Admin from '@/components/views/pages/Admin'
 import Exercito from '@/components/views/pages/Exercito'
 Vue.use(Router)

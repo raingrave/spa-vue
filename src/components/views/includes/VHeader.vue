@@ -7,26 +7,22 @@
         </router-link>
       </h5>
       <v-nav/>
-      <button v-if="isLogged" @click="unauthenticate()" class="btn btn-outline-primary" href="#">
+      <button v-if="user" @click="unauthenticate()" class="btn btn-outline-primary" href="#">
         Logout
       </button>
-      <b v-if="isLogged">{{ user.name }}</b>
+      <i>{{ user.name }}</i>
     </div>
   </header>
 </template>
 
 <script>
 import VNav from '@/components/views/includes/VNav'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'v-header',
   computed: {
-    isLogged () {
-      return this.$store.state.isLogged
-    },
-    user () {
-      return this.$store.state.user
-    }
+    ...mapGetters(['user'])
   },
   methods: {
     unauthenticate () {

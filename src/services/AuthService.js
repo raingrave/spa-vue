@@ -1,26 +1,25 @@
 import axios from 'axios'
+import localforage from 'localforage'
 
 const Auth = {
   authenticate (credentials) {
-    return axios.post(`${process.env.API_URL}/v1/autenticar`, credentials).then(response => {
-      return response
+    return axios.post(`${process.env.API_URL}/v1/autenticar`, credentials).then(token => {
+      return token
     })
   },
+  unauthenticate (token) {
+    return Promise.resolve(token)
+  },
   createTokenInStorage (token) {
-    localStorage.setItem('token', token)
+    return localforage.setItem('token', token).then(token => {
+      return token
+    })
   },
   getUserFromToken (token) {
     axios.defaults.headers.common['Authorization'] = `bearer ${token}`
-    return axios.post(`${process.env.API_URL}/v1/user`).then(response => {
-      return response
+    return axios.post(`${process.env.API_URL}/v1/user`).then(user => {
+      return user
     })
-  },
-  unauthenticate (token, invalidate = false) {
-    localStorage.clear()
-    if (invalidate) {
-      axios.defaults.headers.common['Authorization'] = `bearer ${token}`
-      return axios.post(`${process.env.API_URL}/v1/invalidar`)
-    }
   }
 }
 

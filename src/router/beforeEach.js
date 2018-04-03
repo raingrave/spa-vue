@@ -6,9 +6,9 @@ const beforeEach = (to, from, next) => {
     return
   }
 
-  store.dispatch('checkUserToken').then(response => {
+  store.dispatch('checkUserToken').then(() => {
     next()
-  }).catch(error => {
+  }).catch(() => {
     next('login')
   })
 }

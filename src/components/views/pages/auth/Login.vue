@@ -1,6 +1,6 @@
 <template>
   <div class="col mt-5">
-    <form @submit.stop.prevent="authenticate(credentials)" class="form-signin">
+    <form @submit.prevent.stop="authenticate(credentials)" class="form-signin">
       <h1 class="h3 mb-3 text-center">Entrar</h1>
       <input v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" v-model="credentials.email" name="email" type="text" class="form-control" placeholder="Digite seu email" autofocus>
       <p class="text-danger text-left m-2" v-show="errors.has('email')">
