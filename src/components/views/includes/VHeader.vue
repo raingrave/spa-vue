@@ -6,11 +6,10 @@
           Studiocred
         </router-link>
       </h5>
-      <v-nav/>
+      <v-nav/>{{ user }}
       <button v-if="user" @click="unauthenticate()" class="btn btn-outline-primary" href="#">
         Logout
       </button>
-      <i>{{ user.name }}</i>
     </div>
   </header>
 </template>
@@ -27,7 +26,7 @@ export default {
   methods: {
     unauthenticate () {
       this.$store.dispatch('unauthenticate')
-      this.$router.push('login')
+        .then(() => this.$router.push('login'))
     }
   },
   components: {

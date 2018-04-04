@@ -40,13 +40,12 @@ export default {
     authenticate (credentials) {
       this.show = true
       this.disabled = true
-      this.$store.dispatch('authenticate', credentials).then(response => {
-        this.show = false
-        this.disabled = false
-        this.$router.push('admin')
-      }, error => {
-        console.log(error)
-      })
+      this.$store.dispatch('authenticate', credentials)
+        .then(response => {
+          this.show = false
+          this.disabled = false
+          this.$router.push('admin')
+        })
     }
   }
 }

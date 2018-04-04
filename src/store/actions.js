@@ -3,19 +3,20 @@ import { isEmpty } from 'lodash'
 import localforage from 'localforage'
 
 const authenticate = (context, credentials) => {
-  return AuthService.authenticate(credentials).then(response => {
-    let token = response.data.access_token
-    context.commit('SET_TOKEN', token)
-    AuthService.createTokenInStorage(token)
-    return response
-  })
+  return AuthService.authenticate(credentials)
+    .then(response => {
+      let token = response.data.access_token
+      AuthService.createTokenInStorage(token)
+      context.commit('SET_TOKEN', token)
+      context.dispatch('getUserFromToken')
+    })
 }
 
-const unauthenticate = (context, token) => {
+const unauthenticate = (context) => {
   localforage.setItem('token', null)
   context.commit('SET_TOKEN', null)
   context.commit('SET_USER', null)
-  return Promise.resolve()
+  return Promise.resolve(true)
 }
 
 const checkUserToken = (context) => {
@@ -23,20 +24,22 @@ const checkUserToken = (context) => {
     return Promise.resolve(context.state.token)
   }
 
-  localforage.getItem('token').then(token => {
-    if (isEmpty(token)) {
-      return Promise.reject(new Error('TOKEN_NOT_FOUND'))
-    }
-    return context.commit('SET_TOKEN', token)
-  }).then(() => context.dispatch('getUserFromToken', context.state.token))
+  return localforage.getItem('token')
+    .then(token => {
+      if (isEmpty(token)) {
+        return Promise.reject(new Error('token not exists'))
+      }
+      context.commit('SET_TOKEN', token)
+    })
+    .then(() => context.dispatch('getUserFromToken'))
 }
 
-const getUserFromToken = (context, token) => {
-  return AuthService.getUserFromToken(token).then(user => {
-    context.commit('SET_USER', user.data.data)
-    return user
+const getUserFromToken = (context) => AuthService.getUserFromToken(context.state.token)
+  .then(user => context.commit('SET_USER', user.data.data))
+  .catch(() => {
+    context.commit('SET_TOKEN', null)
+    return Promise.reject(new Error('user not loaded'))
   })
-}
 
 export default {
   authenticate,
