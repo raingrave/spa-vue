@@ -1,12 +1,8 @@
 <template>
-  <main class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <transition name="page" mode="out-in">
-          <router-view/>
-        </transition>
-      </div>
-    </div>
+  <main>
+    <transition name="page" mode="out-in">
+      <router-view/>
+    </transition>
   </main>
 </template>
 

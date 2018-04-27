@@ -19,3 +19,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.svg-inline--fa {
+  margin-right: 6px;
+}
+</style>

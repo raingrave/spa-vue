@@ -1,60 +1,55 @@
 <template>
   <header>
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-      <h5 class="my-0 mr-md-auto font-weight-normal">
-        <router-link to="admin">
+    <nav class="navbar header is-grey">
+      <div class="navbar-brand">
+        <router-link :to="{ name: 'admin' }" class="navbar-item logo">
           Studiocred
         </router-link>
-      </h5>
-      <v-nav/>{{ user }}
-      <button v-if="user" @click="unauthenticate()" class="btn btn-outline-primary" href="#">
-        Logout
-      </button>
-    </div>
+        <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      <div class="navbar-menu">
+        <div class="navbar-start">
+          <div class="navbar-item">
+            <credit v-if="user" :credit="credit" />
+          </div>
+        </div>
+        <div class="navbar-end">
+          <logout v-if="user" :user="user" />
+        </div>
+      </div>
+    </nav>
   </header>
 </template>
 
 <script>
 import VNav from '@/components/views/includes/VNav'
+import Logout from '@/components/views/pages/auth/Logout.vue'
+import Credit from '@/components/views/partials/Credit'
 import { mapGetters } from 'vuex'
-
 export default {
   name: 'v-header',
   computed: {
-    ...mapGetters(['user'])
-  },
-  methods: {
-    unauthenticate () {
-      this.$store.dispatch('unauthenticate')
-        .then(() => this.$router.push('login'))
-    }
+    ...mapGetters(['user', 'credit'])
   },
   components: {
-    VNav
+    VNav,
+    Logout,
+    Credit
   }
 }
 </script>
 
 <style>
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
-}
-
-.container-fluid {
-  padding: 0;
-}
-
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  line-height: 60px;
-  background-color: #f5f5f5;
-}
+  .logo {
+    font-size: 1.2em;
+  }
+  .is-grey {
+    background: #666666;
+  }
+  .is-grey a {
+  }
 </style>

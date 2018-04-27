@@ -3,11 +3,20 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import VeeValidate from 'vee-validate'
-import config from './config/vee-validate'
 import store from './store'
-import '../node_modules/bootstrap/dist/css/bootstrap.css'
-Vue.use(VeeValidate, config)
+import VeeValidate, { Validator } from 'vee-validate'
+import ptBR from 'vee-validate/dist/locale/pt_BR'
+import VueTheMask from 'vue-the-mask'
+import Toasted from 'vue-toasted'
+import configVeeValidade from './config/veeValidate'
+import configVueToasted from './config/vueToasted'
+import VueClipboard from 'vue-clipboard2'
+import '../node_modules/bulma/css/bulma.css'
+Vue.use(VueTheMask)
+Vue.use(VueClipboard)
+Vue.use(Toasted, configVueToasted)
+Vue.use(VeeValidate, configVeeValidade)
+Validator.localize('pt_BR', ptBR)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

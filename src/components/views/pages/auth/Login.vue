@@ -1,26 +1,53 @@
 <template>
-  <div class="col mt-5">
-    <form @submit.prevent.stop="authenticate(credentials)" class="form-signin">
-      <h1 class="h3 mb-3 text-center">Entrar</h1>
-      <input v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" v-model="credentials.email" name="email" type="text" class="form-control" placeholder="Digite seu email" autofocus>
-      <p class="text-danger text-left m-2" v-show="errors.has('email')">
-        {{ errors.first('email') }}
-      </p>
-      <input v-validate="'required'" v-model="credentials.password" name="password" type="password" class="form-control" placeholder="Digite sua senha">
-      <p class="text-danger text-left m-2" v-show="errors.has('password')">
-        {{ errors.first('password') }}
-      </p>
-      <button :disabled="disabled" class="btn btn-lg btn-primary btn-block" type="submit">
-        Entrar
-      </button>
-      <loader v-if="show" size="20" image="http://boldfishvideo.com/wp-content/uploads/2014/06/preloader.gif" />
-    </form>
-  </div>
+    <section class="hero is-fullheight">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <div class="column is-4 is-offset-4">
+            <div class="box">
+              <figure class="avatar">
+                <img width="120" src="https://www.designfreelogoonline.com/wp-content/uploads/2015/08/000595-eagle-logo-design-free-logos-01.png">
+              </figure>
+              <form @submit.prevent.stop="authenticate(credentials)">
+                <div class="field">
+                  <div class="control has-icons-left">
+                    <input v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" v-model="credentials.email" name="email" class="input is-medium" type="text" placeholder="Primary input" autofocus>
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-envelope"></i>
+                    </span>
+                  </div>
+                  <p class="help is-danger has-text-left" v-show="errors.has('email')">
+                    {{ errors.first('email') }}
+                  </p>
+                </div>
+                <div class="field">
+                  <div class="control has-icons-left">
+                    <input v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('password') }" v-model="credentials.password" name="password" class="input is-medium" type="password" placeholder="Digite sua senha">
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-key"></i>
+                    </span>
+                  </div>
+                  <p class="help is-danger has-text-left" v-show="errors.has('password')">
+                    {{ errors.first('password') }}
+                  </p>
+                </div>
+                <button :disabled="!credentials.email || !credentials.password" :class="[{ 'is-loading': loaded }, 'button is-block is-info is-medium is-fullwidth']">
+                  Entrar
+                </button>
+                <br>
+              </form>
+            </div>
+            <p class="has-text-grey">
+              <a href="#">Sign Up</a> &nbsp;·&nbsp;
+              <a href="#">Forgot Password</a> &nbsp;·&nbsp;
+              <a href="#">Need Help?</a>
+            </p>
+          </div>
+        </div>
+    </div>
+  </section>
 </template>
 
 <script>
-import Loader from '@/components/views/partials/Loader'
-
 export default {
   name: 'v-login',
   data () {
@@ -29,22 +56,20 @@ export default {
         email: null,
         password: null
       },
-      show: false,
-      disabled: false
+      loaded: false
     }
-  },
-  components: {
-    Loader
   },
   methods: {
     authenticate (credentials) {
-      this.show = true
-      this.disabled = true
+      this.loaded = true
       this.$store.dispatch('authenticate', credentials)
         .then(response => {
-          this.show = false
-          this.disabled = false
-          this.$router.push('admin')
+          this.loaded = false
+          this.$router.push({ name: 'admin' })
+        })
+        .catch(error => {
+          this.loaded = false
+          this.$toasted.error(error.response.data.errors.message, { icon: 'times' })
         })
     }
   }
@@ -52,33 +77,25 @@ export default {
 </script>
 
 <style scope>
-  .form-signin {
-    width: 100%;
-    max-width: 330px;
-    padding: 15px;
-    margin: 0 auto;
-  }
-  .form-signin .checkbox {
-    font-weight: 400;
-  }
-  .form-signin .form-control {
-    position: relative;
-    box-sizing: border-box;
-    height: auto;
-    padding: 10px;
-    font-size: 16px;
-  }
-  .form-signin .form-control:focus {
-    z-index: 2;
-  }
-  .form-signin input[type="email"] {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-  .form-signin input[type="password"] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-  }
+.hero.is-success {
+  background: #F2F6FA;
+}
+.hero .nav, .hero.is-success .nav {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.box {
+  margin-top: 5rem;
+}
+.avatar {
+  margin-top: -70px;
+  padding-bottom: 20px;
+}
+.avatar img {
+  padding: 5px;
+  background: #fff;
+  border-radius: 50%;
+  -webkit-box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1);
+  box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1);
+}
 </style>

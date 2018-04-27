@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <p v-if="text" class="text-center">

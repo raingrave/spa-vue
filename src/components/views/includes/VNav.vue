@@ -1,9 +1,7 @@
 <template>
-  <nav class="my-2 my-md-0 mr-md-3">
-    <router-link to="/exercito">
-      Exército
-    </router-link>
-  </nav>
+  <router-link to="/exercito">
+    Exército
+  </router-link>
 </template>
 
 <script>

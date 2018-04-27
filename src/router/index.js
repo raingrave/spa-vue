@@ -5,7 +5,10 @@ import Index from '@/components/views/pages/Index'
 import Login from '@/components/views/pages/auth/Login'
 import Admin from '@/components/views/pages/Admin'
 import Exercito from '@/components/views/pages/Exercito'
+import User from '@/components/views/pages/user/User'
+
 Vue.use(Router)
+
 const router = new Router({
   linkActiveClass: 'active',
   mode: 'history',
@@ -27,7 +30,7 @@ const router = new Router({
       }
     },
     {
-      path: '/admin',
+      path: '/administracao',
       name: 'admin',
       component: Admin,
       meta: {
@@ -35,8 +38,16 @@ const router = new Router({
       }
     },
     {
-      path: '/exercito',
-      name: 'exercito',
+      path: '/administracao/usuarios',
+      component: User,
+      name: 'admin.users',
+      meta: {
+        isAuthenticated: true
+      }
+    },
+    {
+      path: '/exercito/consultar/idt',
+      name: 'exercito.consultar.idt',
       component: Exercito,
       meta: {
         isAuthenticated: true

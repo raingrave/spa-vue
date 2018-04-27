@@ -1,10 +1,16 @@
-
 const config = {
   errorBagName: 'errors',
   fieldsBagName: 'fields',
   delay: 0,
-  locale: 'er',
-  dictionary: null,
+  locale: 'pt_BR',
+  dictionary: {
+    pt_BR: {
+      attributes: {
+        keyword: ' ',
+        password: 'senha'
+      }
+    }
+  },
   strict: true,
   classes: false,
   classNames: {

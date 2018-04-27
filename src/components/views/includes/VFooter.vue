@@ -1,12 +1,10 @@
 <template>
-  <footer class="footer">
+  <footer>
     <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <p class="text-muted">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </p>
-        </div>
+      <div class="content has-text-centered">
+        <p>
+          <strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</strong>
+        </p>
       </div>
     </div>
   </footer>
