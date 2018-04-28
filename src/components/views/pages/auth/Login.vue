@@ -68,6 +68,7 @@ export default {
           this.$router.push({ name: 'admin' })
         })
         .catch(error => {
+          console.log(error)
           this.loaded = false
           this.$toasted.error(error.response.data.errors.message, { icon: 'times' })
         })

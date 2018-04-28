@@ -7,12 +7,11 @@ import localforage from 'localforage'
 
 const authenticate = (context, credentials) => {
   return AuthService.authenticate(credentials)
-    .then(response => {
-      let token = response.data.access_token
-      AuthService.createTokenInStorage(token)
+    .then(token => {
+      console.log(token)
       context.commit('SET_TOKEN', token)
-      context.dispatch('getUserFromToken')
-      return response
+      context.dispatch('loadUser')
+      return token
     })
 }
 
@@ -40,12 +39,13 @@ const checkUserToken = (context) => {
       }
       context.commit('SET_TOKEN', token)
     })
-    .then(() => context.dispatch('getUserFromToken'))
+    .then(() => context.dispatch('loadUser'))
 }
 
-const getUserFromToken = (context) => AuthService.getUserFromToken(context.state.token)
-  .then(user => {
-    context.commit('SET_USER', user.data.data)
+const loadUser = (context) => AuthService.loadUser(context.state.token)
+  .then(({ data }) => {
+    context.commit('SET_USER', data)
+    return data
   })
   .catch(() => {
     context.commit('SET_TOKEN', null)
@@ -80,9 +80,10 @@ const getAllUsers = (context) => {
   })
 }
 
-const getUserCredit = (context, id) => {
-  return CreditService.getUserCredit(id).then(credit => {
-    context.commit('SET_CREDIT', credit.data.result)
+const getUserCredit = (store) => {
+  console.log(store.user)
+  return CreditService.getUserCredit(1).then(credit => {
+    store.commit('SET_CREDIT', credit.data.result)
     return Promise.resolve(credit)
   })
 }
@@ -91,7 +92,7 @@ export default {
   authenticate,
   unauthenticate,
   checkUserToken,
-  getUserFromToken,
+  loadUser,
   getClienteFromCpf,
   getClienteEmprestimosFromCpf,
   getClienteIdtFromPrec,
