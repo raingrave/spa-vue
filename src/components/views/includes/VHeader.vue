@@ -14,7 +14,7 @@
       <div class="navbar-menu">
         <div class="navbar-start">
           <div class="navbar-item">
-            <credit v-if="user" :credit="credit" />
+            <credit v-if="credit" :credit="credit" />
           </div>
         </div>
         <div class="navbar-end">

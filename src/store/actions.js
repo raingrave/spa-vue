@@ -8,7 +8,6 @@ import localforage from 'localforage'
 const authenticate = (context, credentials) => {
   return AuthService.authenticate(credentials)
     .then(token => {
-      console.log(token)
       context.commit('SET_TOKEN', token)
       context.dispatch('loadUser')
       return token
@@ -16,9 +15,10 @@ const authenticate = (context, credentials) => {
 }
 
 const unauthenticate = (context) => {
-  localforage.setItem('token', null)
+  localforage.removeItem('token')
   context.commit('SET_TOKEN', null)
   context.commit('SET_USER', null)
+  context.commit('SET_CREDIT', null)
 
   if (!isEmpty(context.state.token) && !isEmpty(context.state.user)) {
     return Promise.reject(new Error('falha ao deslogar'))
@@ -28,10 +28,10 @@ const unauthenticate = (context) => {
 }
 
 const checkUserToken = (context) => {
-  if (!isEmpty(context.state.token)) {
-    return Promise.resolve(context.state.token)
+  let token = context.state.token
+  if (!isEmpty(token)) {
+    return Promise.resolve(token)
   }
-
   return localforage.getItem('token')
     .then(token => {
       if (isEmpty(token)) {
@@ -42,12 +42,14 @@ const checkUserToken = (context) => {
     .then(() => context.dispatch('loadUser'))
 }
 
-const loadUser = (context) => AuthService.loadUser(context.state.token)
+const loadUser = (context) => AuthService.loadUser()
   .then(({ data }) => {
     context.commit('SET_USER', data)
-    return data
+    return context.dispatch('loadUserCredit')
+      .then(() => data)
   })
-  .catch(() => {
+  .catch(error => {
+    console.log(error)
     context.commit('SET_TOKEN', null)
     return Promise.reject(new Error('user not loaded'))
   })
@@ -80,12 +82,19 @@ const getAllUsers = (context) => {
   })
 }
 
-const getUserCredit = (store) => {
-  console.log(store.user)
-  return CreditService.getUserCredit(1).then(credit => {
-    store.commit('SET_CREDIT', credit.data.result)
-    return Promise.resolve(credit)
-  })
+const loadUserCredit = (context) => {
+  const id = context.state.user.id
+
+  if (!id) {
+    return Promise.reject(new Error('no current user'))
+  }
+
+  return CreditService.getUserCredit(id)
+    .then(({ data }) => {
+      const credit = data.result.creditoAtual
+      context.commit('SET_CREDIT', credit)
+      return Promise.resolve(credit)
+    })
 }
 
 export default {
@@ -97,5 +106,5 @@ export default {
   getClienteEmprestimosFromCpf,
   getClienteIdtFromPrec,
   getAllUsers,
-  getUserCredit
+  loadUserCredit
 }
