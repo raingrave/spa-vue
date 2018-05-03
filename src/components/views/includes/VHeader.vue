@@ -14,10 +14,10 @@
       <div class="navbar-menu">
         <div class="navbar-start">
           <div class="navbar-item">
-            <credit v-if="credit" :credit="credit" />
+            <credit v-if="credit " :credit="credit" />
           </div>
         </div>
-        <div class="navbar-end">
+        <div class="navbar-end">{{ user.admin }}
           <logout v-if="user" :user="user" />
         </div>
       </div>

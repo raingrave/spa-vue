@@ -12,6 +12,8 @@ import configVeeValidade from './config/veeValidate'
 import configVueToasted from './config/vueToasted'
 import VueClipboard from 'vue-clipboard2'
 import '../node_modules/bulma/css/bulma.css'
+import fontawesome from 'vue-fontawesome-css'
+Vue.use(fontawesome)
 Vue.use(VueTheMask)
 Vue.use(VueClipboard)
 Vue.use(Toasted, configVueToasted)
@@ -24,6 +26,7 @@ new Vue({
   el: '#app',
   store,
   router,
+  fontawesome,
   components: { App },
   template: '<App/>'
 })

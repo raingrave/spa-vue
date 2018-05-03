@@ -32,7 +32,7 @@ export default {
     logout () {
       this.unauthenticate()
         .then(() => {
-          this.$router.push('login')
+          this.$router.push({ name: 'login' })
         })
         .catch(error => {
           this.$toasted.error(error.message, { icon: 'times' })

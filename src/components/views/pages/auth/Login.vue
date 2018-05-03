@@ -63,12 +63,11 @@ export default {
     authenticate (credentials) {
       this.loaded = true
       this.$store.dispatch('authenticate', credentials)
-        .then(response => {
+        .then(() => {
           this.loaded = false
           this.$router.push({ name: 'admin' })
         })
         .catch(error => {
-          console.log(error)
           this.loaded = false
           this.$toasted.error(error.response.data.errors.message, { icon: 'times' })
         })

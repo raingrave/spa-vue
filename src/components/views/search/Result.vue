@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'result',
   data () {
@@ -47,9 +48,7 @@ export default {
     }
   },
   computed: {
-    results () {
-      return this.$store.state.result
-    }
+    ...mapGetters(['results'])
   },
   methods: {
     onCopy: function (event) {
@@ -59,7 +58,7 @@ export default {
       this.$toasted.error('Erro ao copiar!', { icon: 'copy' })
     },
     closed () {
-      this.$store.state.result = null
+      this.$store.state.results = null
     }
   }
 }

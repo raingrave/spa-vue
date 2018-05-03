@@ -10,8 +10,8 @@ const SET_USERS = (state, users) => {
   state.users = users
 }
 
-const SET_RESULT = (state, result) => {
-  state.result = result
+const SET_RESULTS = (state, results) => {
+  state.results = results
 }
 
 const SET_CREDIT = (state, credit) => {
@@ -22,6 +22,6 @@ export default {
   SET_TOKEN,
   SET_USER,
   SET_USERS,
-  SET_RESULT,
+  SET_RESULTS,
   SET_CREDIT
 }

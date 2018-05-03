@@ -6,7 +6,7 @@
           <div class="card card-hover">
             <header class="card-header is-error">
               <p class="card-header-title">
-                <i class="fas fa-user-circle fa-2x"></i>
+                <i class="fa fa-user-circle fa-2x"></i>
                 Cadastro de Usuários
               </p>
             </header>
@@ -28,7 +28,7 @@
           <div class="card card-hover">
             <header class="card-header is-error">
               <p class="card-header-title">
-                <i class="fas fa-search fa-2x"></i>
+                <i class="fa fa-search fa-2x"></i>
                 Consultar IDT
               </p>
             </header>
@@ -55,7 +55,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .card-hover {
   -webkit-transition: all 300ms ease;
   -moz-transition: all 300ms ease;
@@ -67,6 +67,10 @@ export default {
 
 .card-hover:hover {
   cursor: pointer;
-  border-left: 4px solid #209CEE;
+  border-left: 4px solid #666666;
+}
+
+.card-header-title > i {
+    margin-right: 10px;
 }
 </style>

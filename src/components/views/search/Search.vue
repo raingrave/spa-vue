@@ -19,7 +19,7 @@
                 </span>
               </p>
               <div class="control is-expanded has-icons-right">
-                <input v-mask="defaultMask" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('keyword') }" v-model="search.keyword" name="Buscar" class="input" type="text" placeholder="Buscar">
+                <input v-mask="defaultMask" v-validate="'required|min:9'" :class="{'input': true, 'is-danger': errors.has('busca') }" v-model="search.keyword" name="keyword" class="input" type="text" placeholder="Buscar">
                 <span class="icon is-small is-right">
                   <i class="fas fa-search"></i>
                 </span>
@@ -62,7 +62,7 @@ export default {
       this.loaded = true
       if (search.type === 'cliente') {
         this.$store.dispatch('getClienteFromCpf', clearMask(search.keyword))
-          .then(response => {
+          .then(() => {
             this.loaded = false
           })
           .catch(error => {
@@ -73,7 +73,7 @@ export default {
 
       if (search.type === 'emprestimos') {
         this.$store.dispatch('getClienteEmprestimosFromCpf', clearMask(search.keyword))
-          .then(response => {
+          .then(() => {
             this.loaded = false
           })
           .catch(error => {
@@ -84,7 +84,7 @@ export default {
 
       if (search.type === 'idt') {
         this.$store.dispatch('getClienteIdtFromPrec', search.keyword)
-          .then(response => {
+          .then(() => {
             this.loaded = false
           })
           .catch(error => {
